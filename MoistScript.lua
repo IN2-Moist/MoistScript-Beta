@@ -1,5 +1,69 @@
 
 
+local rootPath = utils.get_appdata_path("PopstarDevs", "2Take1Menu")
+
+utils.make_dir(rootPath .. "\\Blacklist")
+
+utils.make_dir(rootPath .. "\\lualogs")
+
+utils.make_dir(rootPath .. "\\scripts\\MoistsLUA_cfg")
+
+
+--TODO: Script Settings Set & save
+local save_ini = rootPath .. "\\scripts\\MoistsLUA_cfg\\MoistsScript_settings.ini"
+
+local toggle_setting, setting  = {}, {}
+toggle_setting[#toggle_setting+1] = "MoistScript"
+setting[toggle_setting[#toggle_setting]] = "3.0.0.0"
+
+
+function saveSettings()
+
+    local file = io.open(rootPath .. "\\scripts\\MoistsLUA_cfg\\MoistsScript_settings.ini", "w")
+    io.output(file)
+    for i, k in pairs(toggle_setting) do
+        io.write(k.."="..tostring(setting[k]).."\n")
+    end
+    io.close()
+end
+
+save_ini_file = io.open(rootPath .. "\\scripts\\MoistsLUA_cfg\\MoistsScript_settings.ini", "a")
+toggle = 1
+
+if not utils.file_exists(rootPath .. "\\scripts\\MoistsLUA_cfg\\MoistsScript_settings.ini") then
+    io.output(rootPath .. "\\scripts\\MoistsLUA_cfg\\MoistsScript_settings.ini")
+    io.write("[MoistScript]")
+    io.close()
+end
+
+function OverWriteSettingFile()
+    local file = io.open(rootPath .. "\\scripts\\MoistsLUA_cfg\\MoistsScript_settings.ini", "w+")
+    io.output(file)
+    io.write("")
+    io.close()
+end
+
+
+for line in io.lines(rootPath .. "\\scripts\\MoistsLUA_cfg\\MoistsScript_settings.ini") do
+    local line = string.gsub(line, toggle_setting[toggle] .. "=", "")
+
+    if toggle == 1 and setting["MoistScript"] ~= line then
+    end
+    if line == "true" then
+        setting[toggle_setting[toggle]] = true
+    elseif line == "false" then
+        setting[toggle_setting[toggle]] = false
+    elseif line ~= "nil" then
+        if tonumber(line) ~= nil then
+            setting[toggle_setting[toggle]] = tonumber(line)
+        else
+            setting[toggle_setting[toggle]] = line
+        end
+    end
+    toggle = toggle + 1
+
+end
+
 --TODO: Function Variables
 local SessionHost, ScriptHost = nil, nil
 
