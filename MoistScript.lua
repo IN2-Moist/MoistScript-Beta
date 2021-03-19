@@ -1,4 +1,6 @@
 
+local Moistlocals = {}
+Moistlocals.main_func = {}
 
 local rootPath = utils.get_appdata_path("PopstarDevs", "2Take1Menu")
 
@@ -59,6 +61,12 @@ for line in io.lines(rootPath .. "\\scripts\\MoistsLUA_cfg\\MoistsScript_setting
         else
             setting[toggle_setting[toggle]] = line
         end
+        if tostring(line) ~= nil then
+			setting[toggle_setting[toggle]] = tostring(line)
+        else
+            setting[toggle_setting[toggle]] = line
+        end
+
     end
     toggle = toggle + 1
 
