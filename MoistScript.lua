@@ -82,6 +82,7 @@ local playerFeatures, playersFeature, MoistFeat = {}, {}, {}
 --TODO: Menu Feature Parents
 MoistFeat.main = menu.add_feature("MoistScript 3.0.0.0 Beta", "parent", 0).id
 MoistFeat.Online = menu.add_feature("Online Players", "parent", MoistFeat.main)
+created_threads = menu.add_feature("Threads", "parent", 0)
 
 
 --Util functions
@@ -108,6 +109,32 @@ end)
 event.add_event_listener("exit", function()
 	event.remove_event_listener("chat", ChatEventID)
 end)
+
+
+--Thread Functions
+local thread, feat = {}, {}
+
+
+Thread_thread = function(context)
+    while true do
+
+		system.wait(0)
+    end
+end
+
+delete_threads = function(feat, data)
+    menu.delete_thread(feat.data.thread)
+    menu.create_thread(function(id) menu.delete_feature(id) end, feat.id)
+end
+
+function Thread(pid)
+    local pid = pid
+    local y = #thread + 1
+    thread[y] = menu.create_thread(Thread_thread, { pid = pid } )
+    local i = #feat + 1
+    feat[i] = menu.add_feature("Delete Thread ".. i, "action", created_threads.id, delete_threads)
+    feat[i].data = {thread = thread[y]}
+end
 
 --Player list
 
